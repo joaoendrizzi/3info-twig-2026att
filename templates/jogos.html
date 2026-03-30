@@ -17,12 +17,16 @@
         <th>Nome</th>
         <th>Estilo</th>
         <th>Capa</th>
+        <th>Editar</th>
+        <th>Excluir</th>
     </tr>
     {% for jogo in jogos %}
     <tr>
         <td>{{ jogo.nome }}</td>
         <td>{{ estilos[jogo.estilo] ?? "Não encontrado" }}</td>
         <td><img src="img/{{ jogo.capa }}" width="150"></td>
+        <td> <a href="jogos_editar.php?id={{ jogo.id }}">✍️</a></td>
+        <td><a href="jogos_excluir.php?id={{ jogo.id }}">🗑️</a></td>
     </tr>
     {% endfor %}
 </table>

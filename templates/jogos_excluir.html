@@ -1,0 +1,16 @@
+{# jogos_excluir.html - isto é um comentário #}
+{% extends "_base.html" %}
+
+{% block conteudo %}
+<h2>Excluir jogo</h2>
+<h3>Você está excluindo o jogo "{{ jogo.nome }}"</h3>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVLWAEUecivm2eZloGGCJRRHOQ-YW9DEzePw&s" alt="">
+<br>
+Voce tem certeza que deseja excluir este jogo? Você pode sofrer consequências  traumatizantes.
+<div>
+    <form action="jogos_excluir.php" method="POST" value=❌>
+        <input type="submit" value="Apagar para sempre e aceitar as consequências  traumatizantes">
+    </form>
+    <a href="jogos.php">😨Não! Eu tenho medo. Não apague!</a>
+</div>
+{% endblock %}
