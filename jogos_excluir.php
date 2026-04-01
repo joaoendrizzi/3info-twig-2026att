@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] =='POST') {
 }
 
 require "carregar_twig.php";
-
+$id = (int) $_GET["id"] ?? false;
 $dados = $pdo->prepare('SELECT * FROM jogos WHERE id = :id');
 $dados->execute([':id'=> $id]);
 

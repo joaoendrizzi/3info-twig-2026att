@@ -1,0 +1,28 @@
+{# jogos_editar.html - isto é um comentário #}
+{% extends "_base.html" %}
+
+{% block conteudo %}
+<h3>Editar jogo</h3>
+
+{% if erro %}
+<p style="color:red">⚠️ {{ erro }}</p>
+{% endif %}
+    
+<form action="jogos_editar.php" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="{{ jogo.id }}">
+    <input type="hidden" name="capa_atual" value="{{ jogo.capa }}">
+    <input type="text" name="nome" placeholder="Nome" value="{{ jogo.nome }}">
+    <br>
+    Estilo: <select name="estilo">
+        <option value="acao" {% if jogo.estilo == 'acao' %}selected{% endif %}>Ação</option>
+        <option value="tiro" {% if jogo.estilo == 'tiro' %}selected{% endif %}>Tiro</option>
+        <option value="rpg" {% if jogo.estilo == 'rpg' %}selected{% endif %}>RPG</option>
+    </select>
+    <br>
+    Capa atual: <img src="img/{{ jogo.capa }}" width="150">
+    <br>
+    Nova capa (opcional): <input type="file" name="capa">
+    <br>
+    <input type="submit" value="Atualizar">
+</form>
+{% endblock %}

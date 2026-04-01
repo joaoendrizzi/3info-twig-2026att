@@ -8,8 +8,9 @@
 <br>
 Voce tem certeza que deseja excluir este jogo? Você pode sofrer consequências  traumatizantes.
 <div>
-    <form action="jogos_excluir.php" method="POST" value=❌>
-        <input type="submit" value="Apagar para sempre e aceitar as consequências  traumatizantes">
+    <form action="jogos_excluir.php" method="POST">
+        <input type="hidden" name="id" value="{{ jogo.id }}">
+        <input  type="submit" value="Apagar para sempre e aceitar as consequências  traumatizantes">
     </form>
     <a href="jogos.php">😨Não! Eu tenho medo. Não apague!</a>
 </div>
