@@ -3,7 +3,9 @@
 $erro = false;
 
 require('carregar_pdo.php');
-$id = (int) $_GET['id'] ?? false;
+
+
+$id = (int) ($_GET['id'] ?? $_POST['id'] ?? 0);
 if (!$id) {
     header('location:jogos.php');
     die;
@@ -12,29 +14,37 @@ if (!$id) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nome = $_POST['nome'] ?? false;
     $estilo = $_POST['estilo'] ?? false;
+    $id = (int) ($_POST['id'] ?? $id);
     if (!$nome || !$estilo) {
         $erro = 'Preencha todos os campos';
     } else {
-        $capa = $_POST['capa_atual'] ?? false;
+        $capa_atual = $_POST['capa_atual'] ?? '';
+        $capa = $capa_atual;
+
         if (isset($_FILES['capa']) && $_FILES['capa']['error'] == 0) {
             $ext = pathinfo($_FILES['capa']['name'], PATHINFO_EXTENSION);
-            $capa = uniqid().'.'.$ext;
-            move_uploaded_file($_FILES['capa']['tmp_name'], "img/{$capa}");
+            $novo_nome = uniqid().'.'.$ext;
+            move_uploaded_file($_FILES['capa']['tmp_name'], "img/{$novo_nome}");
+            if ($capa_atual && file_exists(__DIR__.'/img/'.$capa_atual)) {
+                @unlink(__DIR__.'/img/'.$capa_atual);
+            }
+            $capa = $novo_nome;
+        } elseif (isset($_POST['remover_capa'])) {
+            if ($capa_atual && file_exists(__DIR__.'/img/'.$capa_atual)) {
+                @unlink(__DIR__.'/img/'.$capa_atual);
+            }
+            $capa = '';
         }
+
         $dados = $pdo->prepare('UPDATE jogos SET nome = ?, estilo = ?, capa = ? WHERE id = ?');
-        $dados->bindParam(1, $nome);
-        $dados->bindParam(2, $estilo);
-        $dados->bindParam(3, $capa);
-        $dados->bindParam(4, $id);
-        $dados->execute();
+        $dados->execute([$nome, $estilo, $capa, $id]);
         header('location:jogos.php');
         die;
     }
 }
 
 $dados = $pdo->prepare('SELECT * FROM jogos WHERE id = ?');
-$dados->bindParam(1, $id);
-$dados->execute();
+$dados->execute([$id]);
 $jogo = $dados->fetch(PDO::FETCH_ASSOC);
 if (!$jogo) {
     header('location:jogos.php');

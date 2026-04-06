@@ -19,9 +19,16 @@
         <option value="rpg" {% if jogo.estilo == 'rpg' %}selected{% endif %}>RPG</option>
     </select>
     <br>
-    Capa atual: <img src="img/{{ jogo.capa }}" width="150">
+    Capa atual: 
+    {% if jogo.capa %}
+        <img src="img/{{ jogo.capa }}" width="150">
+    {% else %}
+        <span>Sem capa</span>
+    {% endif %}
     <br>
     Nova capa (opcional): <input type="file" name="capa">
+    <br>
+    <label><input type="checkbox" name="remover_capa"> Remover capa atual</label>
     <br>
     <input type="submit" value="Atualizar">
 </form>
