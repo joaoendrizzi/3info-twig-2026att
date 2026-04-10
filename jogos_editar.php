@@ -14,8 +14,9 @@ if (!$id) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nome = $_POST['nome'] ?? false;
     $estilo = $_POST['estilo'] ?? false;
+    $lancamento = $_POST['lancamento'] ?? false;
     $id = (int) ($_POST['id'] ?? $id);
-    if (!$nome || !$estilo) {
+    if (!$nome || !$estilo || !$lancamento) {
         $erro = 'Preencha todos os campos';
     } else {
         $capa_atual = $_POST['capa_atual'] ?? '';
@@ -36,8 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $capa = '';
         }
 
-        $dados = $pdo->prepare('UPDATE jogos SET nome = ?, estilo = ?, capa = ? WHERE id = ?');
-        $dados->execute([$nome, $estilo, $capa, $id]);
+        $dados = $pdo->prepare('UPDATE jogos SET nome = ?, estilo = ?, capa = ?, lancamento = ? WHERE id = ?');
+        $dados->execute([$nome, $estilo, $capa, $lancamento, $id]);
         header('location:jogos.php');
         die;
     }
