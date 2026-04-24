@@ -1,5 +1,4 @@
 <?php
-//jogos_excluir.php
 require('carregar_pdo.php'); 
 if ($_SERVER['REQUEST_METHOD'] =='POST') {
     $id = (int) $_POST["id"] ?? false;

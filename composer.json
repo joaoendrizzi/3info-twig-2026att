@@ -1,5 +1,6 @@
 {
     "require": {
-        "twig/twig": "^3.23"
+        "twig/twig": "^3.23",
+        "nesbot/carbon": "^2.72"
     }
 }

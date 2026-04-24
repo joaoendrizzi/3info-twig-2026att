@@ -1,5 +1,7 @@
 <?php
-// jogos_editar.php
+use Carbon\Carbon;
+require_once('vendor/autoload.php');
+
 $erro = false;
 
 require('carregar_pdo.php');
@@ -19,6 +21,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!$nome || !$estilo || !$lancamento) {
         $erro = 'Preencha todos os campos';
     } else {
+        try {
+            $data_lancamento = Carbon::createFromFormat('Y-m-d', $lancamento);
+            $lancamento = $data_lancamento->format('Y-m-d');
+        } catch (\Exception $e) {
+            $erro = 'Data de lançamento inválida';
+            require('carregar_twig.php');
+            echo $twig->render('jogos_editar.html', [
+                'erro' => $erro,
+                'jogo' => [
+                    'id' => $id,
+                    'nome' => $nome,
+                    'estilo' => $estilo,
+                    'lancamento' => $_POST['lancamento'] ?? '',
+                    'capa' => $_POST['capa_atual'] ?? ''
+                ]
+            ]);
+            die;
+        }
         $capa_atual = $_POST['capa_atual'] ?? '';
         $capa = $capa_atual;
 

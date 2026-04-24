@@ -1,18 +1,26 @@
 <?php
-// jogos_inserir.php
+use Carbon\Carbon;
+require_once('vendor/autoload.php');
+
 $erro = false;
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Preparar os dados para inserir no banco
     $nome = $_POST['nome'] ?? false;
     $estilo = $_POST['estilo'] ?? false;
     $lancamento = $_POST['lancamento'] ?? false;
 
-    // Verifica erro
     if (!$nome || !$estilo || !$lancamento) {
         $erro = 'Preencha todos os campos';
     } else {
-        // Tudo certo - gravar os dados
+        try {
+            $data_lancamento = Carbon::createFromFormat('Y-m-d', $lancamento);
+            $lancamento = $data_lancamento->format('Y-m-d');
+        } catch (\Exception $e) {
+            $erro = 'Data de lançamento inválida';
+            require('carregar_twig.php');
+            echo $twig->render('jogos_inserir.html', ['erro' => $erro]);
+            die;
+        }
         $ext = pathinfo($_FILES['capa']['name'], PATHINFO_EXTENSION);
         $capa = uniqid().'.'.$ext;
         

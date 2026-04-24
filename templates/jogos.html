@@ -10,6 +10,10 @@
 
 <h3>Lista de jogos</h3>
 
+<p><strong>Hoje:</strong> {{ hoje }}</p>
+<p><strong>Próxima sexta-feira:</strong> {{ proxima_sexta }}</p>
+<p><strong>Daqui a 20 dias:</strong> {{ daqui_20_dias }}</p>
+
 <a href="jogos_inserir.php">➕ Novo Jogo</a>
 <br><br>
 <table border="1" style="border-collapse: collapse;border-color: aquamarine;">
@@ -18,6 +22,7 @@
         <th>Estilo</th>
         <th>Lançamento</th>
         <th>Capa</th>
+
         <th>Editar</th>
         <th>Excluir</th>
     </tr>
@@ -25,7 +30,7 @@
     <tr>
         <td>{{ jogo.nome }}</td>
         <td>{{ estilos[jogo.estilo] ?? "Não encontrado" }}</td>
-        <td>{{ jogo.lancamento ? jogo.lancamento|date("d/m/Y") : '—' }}</td>
+        <td>{{ jogo.lancamento_extenso }}</td>
         <td>{% if jogo.capa %}<img src="img/{{ jogo.capa }}" width="150">{% else %}Sem capa{% endif %}</td>
         <td> <a href="jogos_editar.php?id={{ jogo.id }}">✍️</a></td>
         <td><a href="jogos_excluir.php?id={{ jogo.id }}">🗑️</a></td>
